@@ -11,7 +11,7 @@ class WaypointGui:
         self.master.title("Manage Waypoints")
 
         self.goal_waypoints = PoseArray()
-        self.goal_waypoints.header.frame_id = 'base_frame'
+        self.goal_waypoints.header.frame_id = 'global_frame'
 
         self.home_pose = Pose()
 
@@ -29,6 +29,10 @@ class WaypointGui:
         # Add Set Home Position Button
         self.home_button = Button(master, text="Set Home Position", command=self.set_home_position)
         self.home_button.pack(side="top", fill='both', expand=True, padx=10, pady=5)
+        
+        # Add go home Button (Clears waypoints and Adds Home)
+        self.add_home_button = Button(master, text="Add Home", command=self.add_home)
+        self.add_home_button.pack(side="top", fill='both', expand=True, padx=10, pady=5)
 
         # Add go home Button (Clears waypoints and Adds Home)
         self.go_home_button = Button(master, text="Go Home", command=self.go_home)
@@ -91,7 +95,7 @@ class WaypointGui:
         setattr(self, f"yaw{suffix}_entry", Entry(frame))
         getattr(self, f"yaw{suffix}_entry").grid(row=5, column=1, padx=5, pady=5)
 
-        submit_button = Button(frame, text=f"Submit Waypoint {suffix}", command=lambda: self.submit_waypoint(suffix))
+        submit_button = Button(frame, text=f"Submit Waypoint", command=lambda: self.submit_waypoint(suffix))
         submit_button.grid(row=6, column=0, columnspan=2, pady=10)
 
     def set_home_position(self):
@@ -125,6 +129,11 @@ class WaypointGui:
         rospy.loginfo("Reset waypoints to home position")
         messagebox.showinfo("Success", "Waypoints have been reset to home position.")
 
+    def add_home(self):
+        """ Adds the home postion as the next waypoint"""
+        self.goal_waypoints.poses.append(self.home_pose)
+        rospy.loginfo(f"Added home waypoint to list:\n {self.home_pose}")
+        
     # need to add conversion to clobal frame if relative waypoint is given
     def submit_waypoint(self, suffix):
         """ Extract values from entries and publish them """
