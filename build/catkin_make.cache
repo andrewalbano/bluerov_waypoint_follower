@@ -1,0 +1,2 @@
+blue_rov_waypoint_follower
+-DCATKIN_DEVEL_PREFIX=/home/andrew/bluerov_waypoint_follower/devel -DCMAKE_INSTALL_PREFIX=/home/andrew/bluerov_waypoint_follower/install -G Unix Makefiles

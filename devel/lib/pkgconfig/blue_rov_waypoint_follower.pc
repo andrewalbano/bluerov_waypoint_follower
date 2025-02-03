@@ -1,0 +1,8 @@
+prefix=/home/andrew/bluerov_waypoint_follower/devel
+
+Name: blue_rov_waypoint_follower
+Description: Description of blue_rov_waypoint_follower
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
